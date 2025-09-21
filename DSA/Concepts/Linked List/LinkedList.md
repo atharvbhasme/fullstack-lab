@@ -145,4 +145,125 @@ search(data) {
 
 ## Doubly Linked List
 
-- 
+**DLL is data strcuture that store the data and refference to prevoius and next node**
+
+- constrcutor and class for doubly linked list
+
+```JS
+class Node{
+  constrcutor(data){
+    this.next = null;
+    this.prev = null;
+    this.data = data
+  }
+}
+
+class DoublyLinkedList{
+   constrcutor(){
+    this.head = null;
+    this.tail = null;
+    this.size = 0;
+   }
+}
+```
+
+- Insertion in doubly linked list
+
+```JS
+//Condtions for insertion in Doubly Linked List
+//List is empty
+if(!this.head){
+  this.head = this.tail = newNode;
+  this.size++
+}
+
+//Insert At Head
+newNode.next = this.head;
+this.head.prev = newNode;
+this.head = newNode;
+this.size++
+
+//Insert At tail
+this.tail.next = newNode;
+newNode.prev = this.tail;
+this.tail = newNode;
+this.size++
+
+//Insert At position
+let current = this.head;
+let index = 0;
+while(current){
+  if(index === position){
+    const prevNode = current.prev;
+    prevNode.next = newNode;
+    newNode.prev = prevNode;
+    current.prev = newNode;
+    newNode.next = current;
+    this.size++
+  }
+  current = current.next;
+  this.size++;
+}
+
+```
+
+- Delete node in DLL
+
+```JS
+while (current) {
+      //matches the data
+      if (current.data === data) {
+        // Case 1: Deleting the head
+        if (!current.prev) {
+          this.head = current.next;
+          if (this.head) {
+            this.head.prev = null;
+          } else {
+            this.tail = null; // list became empty
+          }
+        }
+
+        // Case 2: Deleting the tail
+        else if (!current.next) {
+          this.tail = current.prev;
+          this.tail.next = null;
+        }
+
+        // Case 3: Deleting a middle node
+        else {
+          current.prev.next = current.next;
+          current.next.prev = current.prev;
+        }
+
+        this.size--;
+        return; // exit after deleting
+      }
+      current = current.next; // move forward
+    }
+```
+
+- Priting DLL
+
+```JS
+//print the DLL from backward:tail to head
+  printBackward() {
+    let current = this.tail;
+    let result = [];
+    while (current) {
+      result.push(current.data);
+      current = current.prev;
+    }
+    console.log(result.join("<->"));
+  }
+
+  //print the DLL from forward:head to tail
+  printForward() {
+    let current = this.head;
+    let result = [];
+    while (current) {
+      result.push(current.data);
+      current = current.next;
+    }
+    console.log(result.join("<->"));
+  }
+```
