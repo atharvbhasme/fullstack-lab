@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Queue Enqueue Visualization</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+        h1 {
+            color: #667eea;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .controls {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            font-size: 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: all 0.3s;
+        }
+        button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+        }
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            transform: none;
+        }
+        .visualization {
+            min-height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        .queue {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .node {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            position: relative;
+            animation: slideIn 0.5s ease-out;
+        }
+        .node.new {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            animation: pulse 0.5s ease-in-out;
+        }
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        .value {
+            font-size: 24px;
+        }
+        .label {
+            font-size: 10px;
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+        .pointer {
+            position: absolute;
+            top: -30px;
+            font-size: 12px;
+            font-weight: bold;
+            color: #f5576c;
+        }
+        .arrow {
+            width: 30px;
+            height: 2px;
+            background: #667eea;
+            position: relative;
+        }
+        .arrow::after {
+            content: '▶';
+            position: absolute;
+            right: -8px;
+            top: -9px;
+            color: #667eea;
+            font-size: 16px;
+        }
+        .empty-state {
+            color: #999;
+            font-size: 18px;
+            font-style: italic;
+        }
+        .explanation {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+            border-left: 4px solid #667eea;
+        }
+        .explanation h3 {
+            color: #667eea;
+            margin-top: 0;
+        }
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 14px;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+        .highlight {
+            background: #ffd54f;
+            padding: 2px 4px;
+            border-radius: 3px;
+            color: #333;
+            font-weight: bold;
+        }
+        .info {
+            background: #fff3cd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 20px;
+            border-left: 4px solid #ffc107;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎯 Queue Enqueue Operation</h1>
+        
+        <div class="controls">
+            <button onclick="enqueue()">Enqueue New Node</button>
+            <button onclick="reset()">Reset Queue</button>
+        </div>
+
+        <div class="visualization" id="queue-viz">
+            <div class="empty-state">Queue is empty - Click "Enqueue New Node" to start!</div>
+        </div>
+
+        <div class="info">
+            <strong>Current State:</strong>
+            <div id="state-info" style="margin-top: 10px;">
+                Size: 0<br>
+                Head: null<br>
+                Tail: null
+            </div>
+        </div>
+
+        <div class="explanation">
+            <h3>📚 How Enqueue Works</h3>
+            <p>The enqueue operation adds a new node to the <strong>end (tail)</strong> of the queue. Here's the logic breakdown:</p>
+            
+            <div class="code-block">if (this.isEmpty()) {
+  this.head = this.tail = newNode;
+} else {
+  this.tail.next = newNode;
+  this.tail = newNode;
+}
+this.sizeCount++;</div>
+
+            <h4>🔍 Step-by-Step Logic:</h4>
+            <ol>
+                <li><strong>Check if queue is empty:</strong>
+                    <ul>
+                        <li><span class="highlight">If empty:</span> Set both head and tail to the new node (it's the only node)</li>
+                        <li><span class="highlight">If not empty:</span> Proceed to step 2</li>
+                    </ul>
+                </li>
+                <li><strong>Link the new node:</strong> Set the current tail's <code>next</code> pointer to the new node</li>
+                <li><strong>Update tail:</strong> Move the tail pointer to the new node (it's now the last element)</li>
+                <li><strong>Increment size:</strong> Increase the queue size counter</li>
+            </ol>
+
+            <h4>⏱️ Time Complexity: O(1)</h4>
+            <p>Enqueue is a constant-time operation because we always add to the tail, which we track with a pointer.</p>
+        </div>
+    </div>
+
+    <script>
+        let queue = [];
+        let nodeCounter = 1;
+
+        function renderQueue() {
+            const viz = document.getElementById('queue-viz');
+            
+            if (queue.length === 0) {
+                viz.innerHTML = '<div class="empty-state">Queue is empty - Click "Enqueue New Node" to start!</div>';
+                updateStateInfo();
+                return;
+            }
+
+            let html = '<div class="queue">';
+            queue.forEach((node, index) => {
+                let pointers = '';
+                if (index === 0) pointers += '<div class="pointer">HEAD</div>';
+                if (index === queue.length - 1) pointers += '<div class="pointer" style="top: auto; bottom: -30px;">TAIL</div>';
+                
+                const isNew = node.isNew ? 'new' : '';
+                html += `
+                    <div class="node ${isNew}" style="animation-delay: ${index * 0.1}s">
+                        ${pointers}
+                        <div class="value">${node.value}</div>
+                        <div class="label">Node ${node.id}</div>
+                    </div>
+                `;
+                if (index < queue.length - 1) {
+                    html += '<div class="arrow"></div>';
+                }
+            });
+            html += '</div>';
+            viz.innerHTML = html;
+
+            setTimeout(() => {
+                queue.forEach(node => node.isNew = false);
+            }, 500);
+
+            updateStateInfo();
+        }
+
+        function updateStateInfo() {
+            const info = document.getElementById('state-info');
+            info.innerHTML = `
+                Size: ${queue.length}<br>
+                Head: ${queue.length > 0 ? queue[0].value : 'null'}<br>
+                Tail: ${queue.length > 0 ? queue[queue.length - 1].value : 'null'}
+            `;
+        }
+
+        function enqueue() {
+            const newNode = {
+                id: nodeCounter,
+                value: nodeCounter,
+                isNew: true
+            };
+            queue.push(newNode);
+            nodeCounter++;
+            renderQueue();
+        }
+
+        function reset() {
+            queue = [];
+            nodeCounter = 1;
+            renderQueue();
+        }
+
+        renderQueue();
+    </script>
+</body>
+</html>
