@@ -29,3 +29,30 @@ console.log(`Binary is ${(c ^ b).toString(2)} and Decimal is ${c ^ b}`);
 //first do the 1's complement and then 1 to that flip
 
 //- negative number of binary is 2's complement of that number
+
+//check if the target bit it set or not
+function checkIfSetOrNot(number, target) {
+  return ((number >> target) & 1) === 1;
+}
+
+console.log(
+  `Is set exists at ${2} : ${checkIfSetOrNot(
+    5,
+    2
+  )}, Binary number is ${(5).toString(2)}`
+);
+
+//set the target bit to set(1);
+
+function setBitAtTarget(num, target) {
+  num = num | (1 << target);
+}
+
+//check odd or even
+function checkOddOrEven(num) {
+  if ((num & 1) == 1) {
+    return "odd";
+  } else {
+    return "even";
+  }
+}

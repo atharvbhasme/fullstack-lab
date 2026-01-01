@@ -43,3 +43,18 @@ console.log(arr);
 
 console.log(`\n After Swapping \n`);
 console.log(arr);
+
+//using Binary XOR
+//XOR, even 1's are zero and odd 1' are 1
+//number ^ nummber = 0
+
+let b1 = 34;
+let b2 = 12;
+
+console.log(`Before Swapping num1 is ${b1} and num2 is ${b2}`);
+
+b1 = b1 ^ b2;
+b2 = b1 ^ b2;
+b1 = b1 ^ b2;
+
+console.log(`After Swapping is ${b1} and num2 is ${b2}`);
