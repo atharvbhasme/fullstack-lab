@@ -19,3 +19,5 @@ function plusOne(digits: number[]): number[] {
     }
     return digits;
 };
+
+console.log(plusOne([1,2,3]))
