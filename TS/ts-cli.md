@@ -37,3 +37,11 @@ tsc index.js --declaration --emitDeclarationOnly
 ```
 tsc app.ts util.ts --target esnext --outfile index.js
 ```
+
+**Locally run the .ts file**
+
+- install the ts-node (TS excustion enviroment for nodejs)
+
+```
+ts-node basic.ts
+```
