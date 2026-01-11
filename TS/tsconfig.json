@@ -27,6 +27,8 @@
     "composite": true,
     "declarationMap": true,
     /* If your code doesn't run in the DOM: */
-    "lib": ["es2022","DOM"]
-  }
+    "lib": ["es2022","DOM"],
+
+    // "rootDir": "/src"
+  },
 }

@@ -6,6 +6,8 @@
 tsc --init
 ```
 
+**Running tsc locally will compile the closest project defined by a tsconfig.json, or you can compile a set of TypeScript files by passing in a glob of files you want. When input files are specified on the command line, tsconfig.json files are ignored.**
+
 ### First Level Fields in `tsconfig.json`
 
 `tsconfig`
