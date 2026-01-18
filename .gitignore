@@ -26,10 +26,5 @@ build/
 # OS specific files (macOS example)
 .DS_Store
 
-# Generated files
-*.js
-*.d.ts
-*.map
-
 # Optional: Test/Coverage reports
 coverage/
